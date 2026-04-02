@@ -7,6 +7,7 @@ target = "aarch64-nintendo-switch-freestanding"
 
 [target.aarch64-nintendo-switch-freestanding]
 linker = "aarch64-none-elf-gcc"
+rustflags = ["-C", "link-arg=-nostartfiles", "-C", "link-arg=-nodefaultlibs"]
 
 [env]
 CC_aarch64_nintendo_switch_freestanding = "aarch64-none-elf-gcc"

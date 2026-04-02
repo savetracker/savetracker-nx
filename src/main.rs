@@ -43,7 +43,14 @@ fn run<T: TitleService, P: PowerService, S: SaveFsService, Sleep: Fn(core::time:
 }
 
 #[cfg(target_os = "horizon")]
+#[macro_use]
 extern crate nx;
+
+#[cfg(target_os = "horizon")]
+nx::rrt0_define_default_module_name!();
+
+#[cfg(target_os = "horizon")]
+nx::rrt0_initialize_heap!();
 
 #[cfg(target_os = "horizon")]
 #[panic_handler]
@@ -54,6 +61,7 @@ fn panic_handler(_info: &core::panic::PanicInfo) -> ! {
 }
 
 #[cfg(target_os = "horizon")]
+#[unsafe(no_mangle)]
 fn main() {
     use ipc::nx_power::NxPowerService;
     use ipc::nx_savefs::NxSaveFsService;
@@ -61,18 +69,26 @@ fn main() {
 
     let config = NxConfig::load();
 
-    let title_svc = NxTitleService::new().expect("failed to connect to pm:dmnt/pm:info");
-    let power_svc = NxPowerService::new().expect("failed to connect to psm");
-    let save_svc = NxSaveFsService::new().expect("failed to connect to fsp-srv");
+    let title_svc = match NxTitleService::new() {
+        Ok(s) => s,
+        Err(_) => return,
+    };
+    let power_svc = match NxPowerService::new() {
+        Ok(s) => s,
+        Err(_) => return,
+    };
+    let save_svc = match NxSaveFsService::new() {
+        Ok(s) => s,
+        Err(_) => return,
+    };
 
     run(config, title_svc, power_svc, save_svc, |d| {
-        // nx::thread::sleep(d) — will use nx crate's sleep
-        core::hint::spin_loop(); // placeholder
+        let nanos = d.as_nanos() as i64;
+        let _ = nx::thread::sleep(nanos);
     });
 }
 
 #[cfg(not(target_os = "horizon"))]
 fn main() {
-    // Desktop stub — tests use #[cfg(test)] which provides std
     panic!("savetracker-nx requires the Nintendo Switch runtime");
 }

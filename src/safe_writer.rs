@@ -46,10 +46,26 @@ pub fn safe_write(path: &str, data: &[u8]) -> Result<(), String> {
 
 #[cfg(target_os = "horizon")]
 pub fn safe_write(path: &str, data: &[u8]) -> Result<(), String> {
+    use nx::fs::{self, FileAttribute, FileOpenOption};
+
     let path = get_safe_path(path);
-    // Will use nx crate's fs API
-    // nx::fs::write(&path, data).map_err(|e| format!("{e}"))
-    Err(alloc::format!("nx fs not yet implemented: {path}"))
+
+    if let Some(last_slash) = path.rfind('/') {
+        let parent = &path[..last_slash];
+        let _ = fs::create_directory(parent);
+    }
+
+    let _ = fs::remove_file(&path);
+    fs::create_file(&path, data.len(), FileAttribute::None())
+        .map_err(|e| alloc::format!("create_file {path}: {}", e.get_value()))?;
+
+    let mut file = fs::open_file(&path, FileOpenOption::Write())
+        .map_err(|e| alloc::format!("open_file {path}: {}", e.get_value()))?;
+
+    file.write_array::<_, true>(data)
+        .map_err(|e| alloc::format!("write {path}: {}", e.get_value()))?;
+
+    Ok(())
 }
 
 #[cfg(test)]

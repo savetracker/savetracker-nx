@@ -15,7 +15,7 @@ serde = { version = "1", default-features = false, features = ["derive", "alloc"
 toml = { version = "1.1", default-features = false, features = ["parse", "serde"] }
 
 [target.'cfg(target_os = "horizon")'.dependencies]
-nx = { git = "https://github.com/aarch64-switch-rs/nx" }
+nx = { git = "https://github.com/aarch64-switch-rs/nx", features = ["fs", "services"] }
 
 [dev-dependencies]
 tempfile = "3"

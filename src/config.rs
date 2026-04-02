@@ -82,8 +82,30 @@ impl NxConfig {
 
     #[cfg(target_os = "horizon")]
     pub fn load() -> Self {
-        // Will use nx crate's fs to read from SD card
-        Self::new()
+        use nx::fs::{self, FileOpenOption};
+
+        let path = "sd:/config/savetracker/config.toml";
+        let mut file = match fs::open_file(path, FileOpenOption::Read()) {
+            Ok(f) => f,
+            Err(_) => return Self::new(),
+        };
+
+        let size = match file.get_size() {
+            Ok(s) => s,
+            Err(_) => return Self::new(),
+        };
+
+        let mut buf = alloc::vec![0u8; size];
+        if file.read_array(&mut buf).is_err() {
+            return Self::new();
+        }
+
+        let content = match core::str::from_utf8(&buf) {
+            Ok(s) => s,
+            Err(_) => return Self::new(),
+        };
+
+        toml::from_str(content).unwrap_or_default()
     }
 
     pub fn with_snapshot_base(mut self, base: String) -> Self {
