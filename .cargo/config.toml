@@ -1,4 +1,10 @@
-# Cross-compiler for Switch target (used by cargo nx build)
+[unstable]
+build-std = ["core", "compiler_builtins", "alloc"]
+build-std-features = ["compiler-builtins-mem"]
+
+[build]
+target = "aarch64-nintendo-switch-freestanding"
+
 [target.aarch64-nintendo-switch-freestanding]
 linker = "aarch64-none-elf-gcc"
 
