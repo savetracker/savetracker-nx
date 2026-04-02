@@ -362,7 +362,7 @@ dependencies = [
 [[package]]
 name = "savetracker-core"
 version = "0.1.0"
-source = "git+https://github.com/savetracker/savetracker.git?branch=feat%2Fnx#8936867d6d1b0e61e289d2c4e869ef12caaa2441"
+source = "git+https://github.com/savetracker/savetracker.git#9612c3e9569c46253badef285310ca30671d2c66"
 dependencies = [
  "chrono",
  "serde",
