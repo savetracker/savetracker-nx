@@ -1,0 +1,6 @@
+# Cross-compiler for Switch target (used by cargo nx build)
+[target.aarch64-nintendo-switch-freestanding]
+linker = "aarch64-none-elf-gcc"
+
+[env]
+CC_aarch64_nintendo_switch_freestanding = "aarch64-none-elf-gcc"

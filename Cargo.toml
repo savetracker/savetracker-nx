@@ -1,0 +1,102 @@
+[package]
+name = "savetracker-nx"
+version = "0.1.0"
+edition = "2021"
+description = "Nintendo Switch sysmodule for tracking game save changes"
+license = "BSD-2-Clause"
+
+[[bin]]
+name = "savetracker-nx"
+path = "src/main.rs"
+
+[dependencies]
+savetracker-core = { git = "https://github.com/savetracker/savetracker.git", branch = "feat/nx" }
+serde = { version = "1", default-features = false, features = ["derive", "alloc"] }
+toml = { version = "1.1", default-features = false, features = ["parse", "serde"] }
+
+[target.'cfg(target_os = "horizon")'.dependencies]
+nx = { git = "https://github.com/aarch64-switch-rs/nx" }
+
+[dev-dependencies]
+tempfile = "3"
+
+[lints.clippy]
+redundant_clone = "warn"
+needless_pass_by_value = "warn"
+manual_let_else = "warn"
+uninlined_format_args = "warn"
+implicit_clone = "warn"
+cloned_instead_of_copied = "warn"
+
+[package.metadata.nx.nsp.npdm]
+name = "savetracker"
+program_id = "0x42006D6B73740000"
+signature_key_generation = 0
+main_thread_stack_size = "0x20000"
+main_thread_priority = 49
+main_thread_core_number = 3
+system_resource_size = 0
+version = 0
+address_space_type = 1
+is_64_bit = true
+optimize_memory_allocation = false
+disable_device_address_space_merge = false
+is_production = true
+unqualified_approval = false
+memory_region = 2
+
+[package.metadata.nx.nsp.npdm.fs_access_control]
+flags = "0xFFFFFFFFFFFFFFFF"
+
+[package.metadata.nx.nsp.npdm.service_access_control]
+accessed_services = ["pm:dmnt", "pm:info", "psm", "fsp-srv"]
+hosted_services = []
+
+[package.metadata.nx.nsp.npdm.kernel_capabilities]
+highest_priority = 63
+lowest_priority = 16
+max_core_number = 3
+min_core_number = 3
+kernel_version = "3.0"
+enable_system_calls = [
+    "SetHeapSize",
+    "SetMemoryPermission",
+    "SetMemoryAttribute",
+    "MapMemory",
+    "UnmapMemory",
+    "QueryMemory",
+    "ExitProcess",
+    "CreateThread",
+    "StartThread",
+    "ExitThread",
+    "SleepThread",
+    "GetThreadPriority",
+    "SetThreadPriority",
+    "GetThreadCoreMask",
+    "SetThreadCoreMask",
+    "GetCurrentProcessorNumber",
+    "SignalEvent",
+    "ClearEvent",
+    "MapSharedMemory",
+    "UnmapSharedMemory",
+    "CreateTransferMemory",
+    "CloseHandle",
+    "ResetSignal",
+    "WaitSynchronization",
+    "CancelSynchronization",
+    "ArbitrateLock",
+    "ArbitrateUnlock",
+    "WaitProcessWideKeyAtomic",
+    "SignalProcessWideKey",
+    "GetSystemTick",
+    "ConnectToNamedPort",
+    "SendSyncRequest",
+    "GetProcessId",
+    "GetThreadId",
+    "Break",
+    "OutputDebugString",
+    "ReturnFromException",
+    "GetInfo",
+    "WaitForAddress",
+    "SignalToAddress",
+]

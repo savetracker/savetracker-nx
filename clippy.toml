@@ -1,0 +1,6 @@
+disallowed-methods = [
+    { path = "std::fs::write", reason = "use NxSafeWriter instead" },
+    { path = "std::fs::create_dir_all", reason = "use NxSafeWriter instead" },
+    { path = "std::fs::remove_file", reason = "use NxSafeWriter instead" },
+    { path = "std::fs::remove_dir_all", reason = "use NxSafeWriter instead" },
+]
