@@ -1,6 +1,6 @@
 [package]
 name = "savetracker-nx"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 description = "Nintendo Switch sysmodule for tracking game save changes"
 license = "BSD-2-Clause"
@@ -10,7 +10,7 @@ name = "savetracker-nx"
 path = "src/main.rs"
 
 [dependencies]
-savetracker-core = { git = "https://github.com/savetracker/savetracker.git" }
+savetracker-core = "0.2"
 serde = { version = "1", default-features = false, features = ["derive", "alloc"] }
 toml = { version = "1.1", default-features = false, features = ["parse", "serde"] }
 

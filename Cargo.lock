@@ -368,8 +368,9 @@ dependencies = [
 
 [[package]]
 name = "savetracker-core"
-version = "0.1.0"
-source = "git+https://github.com/savetracker/savetracker.git#9612c3e9569c46253badef285310ca30671d2c66"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c0c5965e7bd3bd015c9e1121b041ec3f51a17215567e55b608e3b9cac29de247"
 dependencies = [
  "chrono",
  "serde",
