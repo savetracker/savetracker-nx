@@ -1,5 +1,10 @@
 # savetracker-nx
 
+> **This tool is designed for tracking save file changes over time for reverse
+> engineering purposes. It is not a save backup tool.** Continuous polling may
+> increase battery drain and reduce SD card lifespan due to frequent writes.
+> Use at your own risk.
+
 Nintendo Switch sysmodule that watches game saves and versions them to SD card.
 Snapshots are analyzed later on PC with [savetracker](https://github.com/savetracker/savetracker).
 

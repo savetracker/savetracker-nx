@@ -49,11 +49,20 @@ struct RawNxConfig {
 impl From<RawNxConfig> for NxConfig {
     fn from(raw: RawNxConfig) -> Self {
         NxConfig::new()
-            .with_snapshot_base(raw.snapshot_base.unwrap_or_else(|| String::from(DEFAULT_SNAPSHOT_BASE)))
+            .with_snapshot_base(
+                raw.snapshot_base
+                    .unwrap_or_else(|| String::from(DEFAULT_SNAPSHOT_BASE)),
+            )
             .with_max_snapshots(raw.max_snapshots.unwrap_or(DEFAULT_MAX_SNAPSHOTS))
             .with_poll_save_interval(raw.poll_save_interval.unwrap_or(DEFAULT_POLL_SAVE_INTERVAL))
-            .with_poll_title_interval(raw.poll_title_interval.unwrap_or(DEFAULT_POLL_TITLE_INTERVAL))
-            .with_poll_power_interval(raw.poll_power_interval.unwrap_or(DEFAULT_POLL_POWER_INTERVAL))
+            .with_poll_title_interval(
+                raw.poll_title_interval
+                    .unwrap_or(DEFAULT_POLL_TITLE_INTERVAL),
+            )
+            .with_poll_power_interval(
+                raw.poll_power_interval
+                    .unwrap_or(DEFAULT_POLL_POWER_INTERVAL),
+            )
             .with_idle_on_no_title(raw.idle_on_no_title.unwrap_or(DEFAULT_IDLE_ON_NO_TITLE))
             .with_pause_on_battery(raw.pause_on_battery)
             .with_forced_format(raw.forced_format)
@@ -215,8 +224,8 @@ mod tests {
 
     #[test]
     fn exclude_titles() {
-        let config = NxConfig::new()
-            .with_exclude_titles(alloc::vec![String::from("0100000000010000")]);
+        let config =
+            NxConfig::new().with_exclude_titles(alloc::vec![String::from("0100000000010000")]);
 
         assert!(config.is_excluded("0100000000010000"));
         assert!(!config.is_excluded("01007EF00011E000"));

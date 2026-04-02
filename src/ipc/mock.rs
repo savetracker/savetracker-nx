@@ -1,9 +1,9 @@
 // Mock implementations use std for filesystem access in tests.
 // This module only compiles for desktop test builds, not the Switch target.
 
+use alloc::collections::BTreeMap;
 use alloc::string::String;
 use alloc::vec::Vec;
-use alloc::collections::BTreeMap;
 
 use super::{IpcError, PowerService, SaveFileMeta, SaveFsService, TitleService};
 
@@ -70,7 +70,9 @@ impl SaveFsService for MockSaveFsService {
         let mut files = Vec::new();
         for entry in std::fs::read_dir(dir).map_err(|e| IpcError::IoError(alloc::format!("{e}")))? {
             let entry = entry.map_err(|e| IpcError::IoError(alloc::format!("{e}")))?;
-            let meta = entry.metadata().map_err(|e| IpcError::IoError(alloc::format!("{e}")))?;
+            let meta = entry
+                .metadata()
+                .map_err(|e| IpcError::IoError(alloc::format!("{e}")))?;
             if meta.is_file() {
                 files.push(SaveFileMeta {
                     path: entry.file_name().to_string_lossy().into_owned(),
@@ -99,6 +101,7 @@ impl SaveFsService for MockSaveFsService {
 }
 
 #[cfg(test)]
+#[allow(clippy::disallowed_methods)]
 mod tests {
     use super::*;
 

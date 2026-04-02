@@ -16,11 +16,7 @@ pub fn snapshot_changed_files(
         .count()
 }
 
-fn snapshot_file(
-    save_svc: &impl SaveFsService,
-    snapshot_dir: &str,
-    file_path: &str,
-) -> bool {
+fn snapshot_file(save_svc: &impl SaveFsService, snapshot_dir: &str, file_path: &str) -> bool {
     let Ok(data) = save_svc.read_file(file_path) else {
         return false;
     };

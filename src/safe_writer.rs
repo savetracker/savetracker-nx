@@ -1,14 +1,13 @@
 use alloc::string::String;
 use alloc::vec::Vec;
 
-const ALLOWED_ROOTS: &[&str] = &[
-    "sdmc:/switch/savetracker",
-    "sdmc:/config/savetracker",
-];
+const ALLOWED_ROOTS: &[&str] = &["sdmc:/switch/savetracker", "sdmc:/config/savetracker"];
 
 fn apply_segment<'a>(parts: &mut Vec<&'a str>, segment: &'a str) {
     match segment {
-        ".." => { parts.pop(); }
+        ".." => {
+            parts.pop();
+        }
         "." | "" => {}
         other => parts.push(other),
     }
@@ -26,7 +25,9 @@ fn normalize(path: &str) -> String {
 }
 
 fn is_allowed(normalized: &str) -> bool {
-    ALLOWED_ROOTS.iter().any(|root| normalized.starts_with(root))
+    ALLOWED_ROOTS
+        .iter()
+        .any(|root| normalized.starts_with(root))
 }
 
 pub fn get_safe_path(path: &str) -> String {
@@ -39,9 +40,10 @@ pub fn get_safe_path(path: &str) -> String {
 }
 
 #[cfg(not(target_os = "horizon"))]
-pub fn safe_write(path: &str, data: &[u8]) -> Result<(), String> {
-    // Desktop stub — tests don't write to sdmc: paths
-    Err(alloc::format!("safe_write not available on desktop: {path}"))
+pub fn safe_write(path: &str, _data: &[u8]) -> Result<(), String> {
+    Err(alloc::format!(
+        "safe_write not available on desktop: {path}"
+    ))
 }
 
 #[cfg(target_os = "horizon")]

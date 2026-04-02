@@ -1,5 +1,6 @@
 #![cfg_attr(target_os = "horizon", no_std)]
 #![cfg_attr(target_os = "horizon", no_main)]
+#![cfg_attr(not(target_os = "horizon"), allow(dead_code, unused_imports))]
 #![warn(clippy::disallowed_methods)]
 
 #[macro_use]

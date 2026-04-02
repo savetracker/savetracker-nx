@@ -1,7 +1,7 @@
 use alloc::collections::BTreeMap;
+use alloc::format;
 use alloc::string::String;
 use alloc::vec::Vec;
-use alloc::format;
 use core::time::Duration;
 
 use crate::config::NxConfig;
@@ -79,7 +79,9 @@ impl<T: TitleService, P: PowerService, S: SaveFsService> Poller<T, P, S> {
         }
 
         let sleep_secs = if self.current_title.is_none() {
-            self.config.idle_on_no_title.min(self.config.poll_title_interval)
+            self.config
+                .idle_on_no_title
+                .min(self.config.poll_title_interval)
         } else if self.is_paused {
             self.config.poll_title_interval
         } else {
@@ -214,6 +216,7 @@ impl<T: TitleService, P: PowerService, S: SaveFsService> Poller<T, P, S> {
 }
 
 #[cfg(test)]
+#[allow(clippy::disallowed_methods)]
 mod tests {
     use super::*;
     use crate::ipc::mock::*;
@@ -236,7 +239,10 @@ mod tests {
         );
 
         match poller.tick() {
-            PollAction::TitleChanged { old: None, new: None } => {}
+            PollAction::TitleChanged {
+                old: None,
+                new: None,
+            } => {}
             PollAction::Sleep(_) => {}
             other => panic!("expected Sleep or no-change TitleChanged, got {other:?}"),
         }
