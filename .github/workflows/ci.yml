@@ -56,14 +56,28 @@ jobs:
       - name: Build NSP
         run: |
           . "$HOME/.cargo/env"
+          export DEVKITPRO=/opt/devkitpro
+          export DEVKITA64=/opt/devkitpro/devkitA64
+          export PATH=$DEVKITA64/bin:$DEVKITPRO/tools/bin:$PATH
           export RUSTUP_TOOLCHAIN=nightly-2025-12-01
           cargo nx build --release -p savetracker-nx
 
-      - name: Upload NSP artifact
+      - name: Package Atmosphère SD layout
+        run: |
+          TID=42006D6B73740000
+          DEST=SdOut/atmosphere/contents/$TID
+          mkdir -p "$DEST/flags"
+          cp target/aarch64-nintendo-switch-freestanding/release/savetracker-nx.nsp "$DEST/exefs.nsp"
+          cp toolbox.json "$DEST/toolbox.json"
+          touch "$DEST/flags/boot2.flag"
+          (cd SdOut && zip -r ../savetracker-nx.zip .)
+
+      - name: Upload release zip
         uses: actions/upload-artifact@v4
         with:
-          name: savetracker-nx.nsp
-          path: target/aarch64-nintendo-switch-freestanding/release/savetracker-nx.nsp
+          name: savetracker-nx-release
+          path: savetracker-nx.zip
+          if-no-files-found: error
 
   release:
     name: GitHub Release
@@ -75,13 +89,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download NSP artifact
+      - name: Download release zip
         uses: actions/download-artifact@v4
         with:
-          name: savetracker-nx.nsp
+          name: savetracker-nx-release
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
-          files: savetracker-nx.nsp
+          files: savetracker-nx.zip
