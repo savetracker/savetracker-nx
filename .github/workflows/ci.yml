@@ -65,12 +65,14 @@ jobs:
       - name: Package Atmosphère SD layout
         run: |
           TID=42006D6B73740000
-          DEST=SdOut/atmosphere/contents/$TID
+          DEST=sd/atmosphere/contents/$TID
           mkdir -p "$DEST/flags"
           cp target/aarch64-nintendo-switch-freestanding/release/savetracker-nx.nsp "$DEST/exefs.nsp"
           cp toolbox.json "$DEST/toolbox.json"
           touch "$DEST/flags/boot2.flag"
-          (cd SdOut && zip -r ../savetracker-nx.zip .)
+          mkdir -p sd/config/savetracker
+          cp etc/config.toml.example sd/config/savetracker/config.toml.example
+          (cd sd && zip -r ../savetracker-nx.zip .)
 
       - name: Upload release zip
         uses: actions/upload-artifact@v4

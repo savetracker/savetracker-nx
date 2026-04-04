@@ -1,0 +1,49 @@
+# savetracker-nx configuration
+#
+# Copy this file to config.toml in the same directory to activate:
+#   sd:/config/savetracker/config.toml
+#
+# Every option below is commented out and shows its built-in default.
+# Uncomment and edit a line to override. Unknown or missing keys fall
+# back to defaults, so you only need to list what you want to change.
+
+# Where snapshots are stored on the SD card.
+#snapshot_base = "sdmc:/switch/savetracker"
+
+# Maximum snapshots to retain per tracked file. Oldest are pruned first.
+#max_snapshots = 50
+
+# How often (in seconds) to poll save files for changes.
+#poll_save_interval = 5
+
+# How often (in seconds) to check the foreground title.
+#poll_title_interval = 30
+
+# How often (in seconds) to check power/charging state.
+#poll_power_interval = 180
+
+# Seconds to idle before rechecking when no title is running.
+#idle_on_no_title = 90
+
+# Pause snapshot capture while running on battery (not charging).
+# Useful if you want to conserve power during handheld play.
+#pause_on_battery = false
+
+# Force a specific format decoder for all tracked files instead of
+# auto-detecting. Leave unset unless you know what you're doing.
+#forced_format = "borderlands4"
+
+# Parameters passed to format decoders (key-value pairs).
+#[format_params]
+#some_key = "some_value"
+
+# Friendly names for title IDs. Used in snapshot directory names and
+# any UI that displays the title. Keys are 16-char hex title IDs.
+#[title_overrides]
+#"01007EF00011E000" = "Zelda: Breath of the Wild"
+#"0100000000010000" = "Super Mario Odyssey"
+
+# Title IDs to completely ignore (no snapshots captured while running).
+#exclude_titles = [
+#    "0100000000010000",
+#]
