@@ -1,0 +1,15 @@
+# Build artifacts
+build/
+tests/build/
+tests/test_runner
+tests/unity/
+*.nsp
+*.nso
+*.elf
+*.npdm
+*.map
+compile_commands.json
+
+# Non-git hidden file patterns
+.*
+!.git*

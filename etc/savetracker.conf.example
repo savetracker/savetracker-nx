@@ -1,0 +1,28 @@
+# Copy to sdmc:/config/savetracker/savetracker.conf to activate.
+# All values below are defaults — uncomment to override.
+
+# Seconds between title presence checks
+#title_check_secs = 90
+
+# Seconds between save file checks while a title is running
+#save_check_secs = 15
+
+# Seconds to sleep when no title is running
+#idle_secs = 90
+
+# Seconds before forcing a full snapshot instead of a patch
+#full_snapshot_secs = 1800
+
+# Seconds to wait after a save file changes before reading it
+#write_delay_secs = 3
+
+# LED color + duration when a new title is detected
+#led_new_title_color = yellow
+#led_new_title_duration = 3
+
+# LED color + duration on write failure
+#led_error_color = red
+#led_error_duration = 2
+
+# Pause snapshotting when running on battery
+#pause_on_battery = false
